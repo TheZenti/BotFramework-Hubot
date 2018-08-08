@@ -96,13 +96,7 @@ class MicrosoftTeamsMiddleware extends BaseMiddleware
 
         result = imageRegExp.exec(message)
         if result && result[3] == 'gif'
-            attachment =
-                name: result[2]
-                contentType: "application/vnd.microsoft.card.animation"
-                media: [
-                    {url: result[1]}
-                ]
-            return attachment
+            return new BotBuilder.AnimationCard().title(result[2]).media([{url:result[1]}])
         if result?
             attachment =
                 contentUrl: result[1]

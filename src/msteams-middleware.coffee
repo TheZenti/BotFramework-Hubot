@@ -94,6 +94,12 @@ class MicrosoftTeamsMiddleware extends BaseMiddleware
         if not typeof message is 'string'
             return null
 
+        if message.startsWith 'data:'
+            attachment =
+                contentUrl: message
+                name: 'gif'
+                contentType: "image/gif"
+            return attachment
         result = imageRegExp.exec(message)
         if result && result[3] == 'gif'
             attachment =

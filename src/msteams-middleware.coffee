@@ -72,7 +72,6 @@ class MicrosoftTeamsMiddleware extends BaseMiddleware
 
             imageAttachment = convertToImageAttachment(message)
             if imageAttachment?
-                delete response.text
                 response.attachments = [imageAttachment]
 
         response = fixMessageForTeams(response, @robot)

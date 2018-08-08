@@ -24,6 +24,7 @@
 
 { Robot, TextMessage, Message, User } = require 'hubot'
 { BaseMiddleware, registerMiddleware } = require './adapter-middleware'
+BotBuilder = require 'botbuilder'
 LogPrefix = "hubot-msteams:"
 
 class MicrosoftTeamsMiddleware extends BaseMiddleware
@@ -68,11 +69,11 @@ class MicrosoftTeamsMiddleware extends BaseMiddleware
                 type: 'message'
                 text: message
                 address: activity?.address
-            
-#            imageAttachment = convertToImageAttachment(message)
-#            if imageAttachment?
-#                delete response.text
-#                response.attachments = [imageAttachment]
+
+            imageAttachment = convertToImageAttachment(message)
+            if imageAttachment?
+                delete response.text
+                response.attachments = [imageAttachment]
 
         response = fixMessageForTeams(response, @robot)
 
@@ -94,6 +95,14 @@ class MicrosoftTeamsMiddleware extends BaseMiddleware
             return null
 
         result = imageRegExp.exec(message)
+        if result && result[3] == 'gif'
+            attachment =
+                name: result[2]
+                contentType: "application/vnd.microsoft.card.animation"
+                media: [
+                    {url: result[1]}
+                ]
+            return attachment
         if result?
             attachment =
                 contentUrl: result[1]

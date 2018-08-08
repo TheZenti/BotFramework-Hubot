@@ -69,10 +69,10 @@ class MicrosoftTeamsMiddleware extends BaseMiddleware
                 text: message
                 address: activity?.address
             
-            imageAttachment = convertToImageAttachment(message)
-            if imageAttachment?
-                delete response.text
-                response.attachments = [imageAttachment]
+#            imageAttachment = convertToImageAttachment(message)
+#            if imageAttachment?
+#                delete response.text
+#                response.attachments = [imageAttachment]
 
         response = fixMessageForTeams(response, @robot)
 
